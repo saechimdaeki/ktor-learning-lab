@@ -1,1 +1,1 @@
-rootProject.name = "zcafe"
+rootProject.name = "saechim_cafe"
