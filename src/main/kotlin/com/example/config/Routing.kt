@@ -21,17 +21,17 @@ fun Application.configureRouting() {
                 val list = menuList
                 call.respond(list)
             }
-
             post("/orders") {
                 val request = call.receive<OrderDto.CreateRequest>()
-                val selectedMenu = menuList.first { it.id == request.menuId}
+                val selectedMenu = menuList.first { it.id == request.menuId }
                 val order = OrderDto.DisplayResponse(
-                    orderCode = "123456",
+                    orderCode = "ordercode1",
                     menuName = selectedMenu.name,
-                    customerName = "John Doe",
+                    customerName = "홍길동",
                     price = selectedMenu.price,
                     status = CafeOrderStatus.READY,
                     orderedAt = LocalDateTime.now(),
+                    id = 1
                 )
                 call.respond(order)
             }
@@ -39,15 +39,14 @@ fun Application.configureRouting() {
                 val orderCode = call.parameters["orderCode"]!!
                 val order = OrderDto.DisplayResponse(
                     orderCode = orderCode,
-                    menuName = "ice imericano",
-                    customerName = "John Doe",
-                    price = 5000,
+                    menuName = "아이스라떼",
+                    customerName = "홍길동",
+                    price = 1000,
                     status = CafeOrderStatus.READY,
                     orderedAt = LocalDateTime.now(),
+                    id = 1
                 )
-
                 call.respond(order)
-
             }
         }
     }

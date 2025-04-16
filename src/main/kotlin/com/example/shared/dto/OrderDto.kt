@@ -6,7 +6,6 @@ import kotlinx.serialization.Serializable
 import java.time.LocalDateTime
 
 class OrderDto {
-
     @Serializable
     data class CreateRequest(val menuId: Long)
 
@@ -17,7 +16,6 @@ class OrderDto {
         val customerName: String,
         val price: Int,
         var status: CafeOrderStatus,
-
         @Serializable(with = LocalDateTimeSerializer::class)
         val orderedAt: LocalDateTime,
         var id: Long? = null,
