@@ -1,12 +1,46 @@
 package com.example.config
 
+import com.example.domain.CafeMenuTable
+import com.example.domain.CafeOrderTable
+import com.example.domain.CafeUserTable
+import com.zaxxer.hikari.HikariConfig
+import com.zaxxer.hikari.HikariDataSource
 import io.ktor.server.application.*
 import org.h2.tools.Server
+import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.StdOutSqlLogger
+import org.jetbrains.exposed.sql.addLogger
+import org.jetbrains.exposed.sql.transactions.transaction
 
 fun Application.configureDatabase() {
     configureH2()
+    connectDatabase()
+    initData()
 }
 
+private fun initData() {
+    transaction {
+        addLogger(StdOutSqlLogger)
+
+        SchemaUtils.create(
+            CafeMenuTable,
+            CafeUserTable,
+            CafeOrderTable
+        )
+    }
+}
+
+private fun connectDatabase() {
+    val config = HikariConfig().apply {
+        jdbcUrl = "jdbc:h2:mem:cafedb"
+        driverClassName = "org.h2.Driver"
+        validate()
+    }
+
+    val dataSource = HikariDataSource(config)
+    Database.connect(dataSource)
+}
 
 fun Application.configureH2() {
     val h2Server = Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9092")
