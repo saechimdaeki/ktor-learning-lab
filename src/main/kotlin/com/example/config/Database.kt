@@ -12,6 +12,7 @@ import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.StdOutSqlLogger
 import org.jetbrains.exposed.sql.addLogger
 import org.jetbrains.exposed.sql.transactions.transaction
+import javax.sql.DataSource
 
 fun Application.configureDatabase() {
     configureH2()
@@ -19,28 +20,6 @@ fun Application.configureDatabase() {
     initData()
 }
 
-private fun initData() {
-    transaction {
-        addLogger(StdOutSqlLogger)
-
-        SchemaUtils.create(
-            CafeMenuTable,
-            CafeUserTable,
-            CafeOrderTable
-        )
-    }
-}
-
-private fun connectDatabase() {
-    val config = HikariConfig().apply {
-        jdbcUrl = "jdbc:h2:mem:cafedb"
-        driverClassName = "org.h2.Driver"
-        validate()
-    }
-
-    val dataSource = HikariDataSource(config)
-    Database.connect(dataSource)
-}
 
 fun Application.configureH2() {
     val h2Server = Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9092")
@@ -52,5 +31,30 @@ fun Application.configureH2() {
     environment.monitor.subscribe(ApplicationStopped) { application ->
         h2Server.stop()
         application.environment.log.info("H2 server stopped. ${h2Server.url}")
+    }
+}
+
+
+private fun connectDatabase() {
+    val config =
+        HikariConfig().apply {
+            jdbcUrl = "jdbc:h2:mem:cafedb"
+            driverClassName = "org.h2.Driver"
+            validate()
+        }
+
+    val dataSource: DataSource = HikariDataSource(config)
+    Database.connect(dataSource)
+}
+
+private fun initData() {
+    transaction {
+        addLogger(StdOutSqlLogger)
+
+        SchemaUtils.create(
+            CafeMenuTable,
+            CafeUserTable,
+            CafeOrderTable
+        )
     }
 }

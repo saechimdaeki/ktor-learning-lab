@@ -6,12 +6,10 @@ import com.example.shared.CafeUserRole
 import org.jetbrains.exposed.dao.id.LongIdTable
 import org.jetbrains.exposed.sql.javatime.datetime
 
-// menu, order, user(customer, admin)
-
-object CafeMenuTable: LongIdTable(name = "cafe_menu") {
+object CafeMenuTable : LongIdTable(name = "cafe_menu") {
     val name = varchar("menu_name", length = 50)
     val price = integer("price")
-    val category = enumerationByName("category", 10 , CafeMenuCategory::class)
+    val category = enumerationByName("category", 10, CafeMenuCategory::class)
     val image = text("image")
 }
 
