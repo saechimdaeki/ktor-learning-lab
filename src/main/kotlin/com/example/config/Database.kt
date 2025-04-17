@@ -58,8 +58,6 @@ private fun initData() {
             CafeOrderTable
         )
 
-        execInBatch(
-            dummyQueryList
-        )
+        execInBatch(dummyQueryList)
     }
 }
