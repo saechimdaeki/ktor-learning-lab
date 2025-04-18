@@ -7,6 +7,7 @@ import io.ktor.server.request.*
 import io.ktor.util.logging.*
 import org.slf4j.event.Level
 
+
 internal val LOGGER = KtorSimpleLogger("[CallLogging]")
 val MyCallLogging =
     createRouteScopedPlugin("MyCallLogging") {
@@ -20,7 +21,7 @@ val MyCallLogging =
     }
 
 fun getLevel(call: ApplicationCall): Level =
-    if (call.response.status()?.isSuccess() != false) Level.INFO else Level.ERROR
+    if (call.response.status()?.isSuccess() ?: true) Level.INFO else Level.ERROR
 
 suspend fun format(call: ApplicationCall, body: Any): String {
     val method = call.request.httpMethod.value
