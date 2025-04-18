@@ -1,7 +1,7 @@
 package com.example.config
 
-import com.example.config.AuthenticatedUser.Companion.CUSTOMER_REQUIRED
 import com.example.shared.CafeUserRole
+import com.example.config.AuthenticatedUser.Companion.CUSTOMER_REQUIRED
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
@@ -14,8 +14,10 @@ fun Application.configureSecurity() {
                 session.takeIf { it.userRoles.contains(CafeUserRole.CUSTOMER) }
             }
             challenge {
-                call.respond(HttpStatusCode.Forbidden, "only for customer")
+                call.respond(HttpStatusCode.Forbidden, "only for customer");
             }
         }
     }
 }
+
+fun ApplicationCall.authenticatedUser(): AuthenticatedUser = authentication.principal<AuthenticatedUser>()!!

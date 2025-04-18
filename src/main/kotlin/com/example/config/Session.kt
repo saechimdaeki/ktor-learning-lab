@@ -19,7 +19,7 @@ fun Application.configureSession() {
 data class AuthenticatedUser(
     val userId: Long,
     val userRoles: List<CafeUserRole>
-) : Principal {
+): Principal {
     companion object {
         fun none() = AuthenticatedUser(0, listOf())
 
