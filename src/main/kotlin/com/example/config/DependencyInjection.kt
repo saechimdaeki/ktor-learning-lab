@@ -17,6 +17,7 @@ import org.koin.logger.slf4jLogger
 
 val appModule = module {
     single { BCryptPasswordEncoder() }
+
     single { CafeMenuRepository(CafeMenuTable) }
     single { CafeUserRepository(CafeUserTable) }
     single { CafeOrderRepository(CafeOrderTable) }

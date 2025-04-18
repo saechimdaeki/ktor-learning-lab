@@ -12,6 +12,7 @@ fun Application.module() {
     configureDependencyInjection()
     configureHttp()
     configureSession()
+    configureSecurity()
     configureSerialization()
     configureRouting()
     configureLogging()
