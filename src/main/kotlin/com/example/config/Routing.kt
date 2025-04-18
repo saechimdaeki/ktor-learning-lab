@@ -1,5 +1,6 @@
 package com.example.config
 
+import com.example.domain.repository.CafeMenuRepository
 import com.example.service.MenuService
 import com.example.shared.CafeOrderStatus
 import com.example.shared.dto.OrderDto
@@ -12,7 +13,7 @@ import java.time.LocalDateTime
 
 
 fun Application.configureRouting() {
-    val menuService: MenuService by inject<MenuService>()
+    val menuService by inject<MenuService>()
 
     routing {
         get("/") {
