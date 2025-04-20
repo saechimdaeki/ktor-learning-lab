@@ -25,9 +25,8 @@ val appModule = module {
 
     single { MenuService(get()) }
     single { UserService(get(), get()) }
-    single { LoginService(get()) }
-
     single { OrderService(get(), get(), get()) }
+    single { LoginService(get()) }
 }
 
 fun Application.configureDependencyInjection() {

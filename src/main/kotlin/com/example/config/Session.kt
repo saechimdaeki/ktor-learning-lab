@@ -20,10 +20,16 @@ data class AuthenticatedUser(
     val userId: Long,
     val userRoles: List<CafeUserRole>
 ): Principal {
+    fun isOnlyCustomer(): Boolean {
+        return userRoles == listOf(CafeUserRole.CUSTOMER)
+    }
+
     companion object {
         fun none() = AuthenticatedUser(0, listOf())
 
         const val SESSION_NAME = "CU_SESSION_ID"
+        const val USER_REQUIRED = "user-required"
         const val CUSTOMER_REQUIRED = "customer-required"
+        const val ADMINISTER_REQUIRED = "administer-required"
     }
 }
