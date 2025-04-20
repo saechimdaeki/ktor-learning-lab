@@ -28,10 +28,9 @@ class OrderDto {
 
     @Serializable
     data class StatsResponse(
-
         @Serializable(with = LocalDateSerializer::class)
-        val orderDate : LocalDate,
+        val orderDate: LocalDate,
         val totalOrderCount: Long,
-        val totalOrderPrice : Long,
+        val totalOrderPrice: Long,
     )
 }

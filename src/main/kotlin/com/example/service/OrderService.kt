@@ -8,7 +8,7 @@ import com.example.shared.CafeOrderStatus
 import com.example.shared.ErrorCode
 import com.example.shared.dto.OrderDto
 import java.time.LocalDateTime
-import java.util.*
+import java.util.UUID
 
 class OrderService(
     private val menuService: MenuService,
@@ -87,7 +87,8 @@ class OrderService(
     }
 
     private fun getOrderByCode(orderCode: String): CafeOrder {
-        return cafeOrderRepository.findByCode(orderCode) ?: throw CafeException(ErrorCode.ORDER_NOT_FOUND)
+        return cafeOrderRepository.findByCode(orderCode)
+            ?: throw CafeException(ErrorCode.ORDER_NOT_FOUND)
     }
 
     fun getOrders(): List<OrderDto.DisplayResponse> {
@@ -96,14 +97,13 @@ class OrderService(
 
     fun getOrderStats(): List<OrderDto.StatsResponse> {
         return cafeOrderRepository.findOrderStats()
-//
-//        val orders: List<CafeOrder> = cafeOrderRepository.findAll()
-//        return orders.groupBy { it.orderedAt.toLocalDate() }.map { (date, list) ->
-//            OrderDto.StatsResponse(
-//                orderDate = date,
-//                totalOrderCount = list.count().toLong(),
-//                totalOrderPrice = list.sumOf { it.price }.toLong()
-//            )
-//        }.sortedByDescending { it.orderDate }
+//        return cafeOrderRepository.findAll().groupBy { it.orderedAt.toLocalDate() }
+//            .map {
+//                OrderDto.StatsResponse(
+//                    orderDate = it.key,
+//                    totalOrderCount = it.value.size.toLong(),
+//                    totalOrderPrice = it.value.sumOf { it.price }.toLong()
+//                )
+//            }.sortedByDescending { it.orderDate }
     }
 }
